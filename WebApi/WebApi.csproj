@@ -5,5 +5,9 @@
 	<NoWarn>S1118</NoWarn>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Business\Business.csproj" />
+  </ItemGroup>
+
 
 </Project>
