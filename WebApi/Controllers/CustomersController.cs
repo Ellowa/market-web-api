@@ -12,48 +12,70 @@ namespace WebApi.Controllers
     [ApiController]
     public class CustomersController : ControllerBase
     {
-        //Inject customer service via constructor
+        private readonly ICustomerService _customerService;
+
+        public CustomersController(ICustomerService customerService)
+        {
+            _customerService = customerService;
+        }
 
         // GET: api/customers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CustomerModel>>> Get()
         {
-            throw new NotImplementedException();
+            return Ok(await _customerService.GetAllAsync());
         }
 
         //GET: api/customers/1
         [HttpGet("{id}")]
         public async Task<ActionResult<CustomerModel>> GetById(int id)
         {
-            throw new NotImplementedException();
+            return Ok(await _customerService.GetByIdAsync(id));
         }
         
         //GET: api/customers/products/1
         [HttpGet("products/{id}")]
         public async Task<ActionResult<CustomerModel>> GetByProductId(int id)
         {
-            throw new NotImplementedException();
+            return Ok(await _customerService.GetCustomersByProductIdAsync(id));
         }
 
         // POST: api/customers
         [HttpPost]
         public async Task<ActionResult> Add([FromBody] CustomerModel value)
         {
-            throw new NotImplementedException();
+            await _customerService.AddAsync(value);
+            return Created("/customer/" + value.Id, value);
         }
 
         // PUT: api/customers/1
         [HttpPut("{id}")]
         public async Task<ActionResult> Update(int Id, [FromBody] CustomerModel value)
         {
-            throw new NotImplementedException();
+            if (Id != value.Id)
+            {
+                return BadRequest();
+            }
+            if(_customerService.GetCustomersByProductIdAsync(Id) == null)
+            {
+                return NotFound();
+            }    
+
+            await _customerService.UpdateAsync(value);
+            return NoContent();
         }
 
         // DELETE: api/customers/1
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
-            throw new NotImplementedException();
+            if (_customerService.GetCustomersByProductIdAsync(id) == null)
+            {
+                return NotFound();
+            }
+
+            await _customerService.DeleteAsync(id);
+            return NoContent();
         }
     }
 }
