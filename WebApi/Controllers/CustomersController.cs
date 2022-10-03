@@ -5,6 +5,7 @@ using Business.Interfaces;
 using Business.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebApi.Controllers
 {
@@ -30,7 +31,12 @@ namespace WebApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<CustomerModel>> GetById(int id)
         {
-            return Ok(await _customerService.GetByIdAsync(id));
+            var customer = await _customerService.GetByIdAsync(id);
+            if (customer == null)
+            {
+                return NotFound();
+            }
+            return Ok(customer);
         }
         
         //GET: api/customers/products/1
@@ -50,18 +56,21 @@ namespace WebApi.Controllers
 
         // PUT: api/customers/1
         [HttpPut("{id}")]
-        public async Task<ActionResult> Update(int Id, [FromBody] CustomerModel value)
+        public async Task<ActionResult> Update(int id, [FromBody] CustomerModel value)
         {
-            if (Id != value.Id)
-            {
-                return BadRequest();
-            }
-            if(_customerService.GetCustomersByProductIdAsync(Id) == null)
-            {
-                return NotFound();
-            }    
+            if (id != value.Id) return BadRequest();
 
-            await _customerService.UpdateAsync(value);
+            try
+            {
+                await _customerService.UpdateAsync(value);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (await _customerService.GetByIdAsync(value.Id) == null)
+                {
+                    return NotFound();
+                }
+            }
             return NoContent();
         }
 
@@ -69,7 +78,8 @@ namespace WebApi.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
-            if (_customerService.GetCustomersByProductIdAsync(id) == null)
+            var customer = await _customerService.GetByIdAsync(id);
+            if (customer == null)
             {
                 return NotFound();
             }

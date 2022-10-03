@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
 using Business.Validation;
+using Microsoft.EntityFrameworkCore;
 
 namespace Business.Services
 {
@@ -66,6 +67,8 @@ namespace Business.Services
             CustomerModelVaild(model);
 
             var customer = _mapper.Map<Customer>(model);
+            var person = _mapper.Map<Person>(model);
+            customer.Person = person;
             _unitOfWork.CustomerRepository.Update(customer);
             await _unitOfWork.SaveAsync();
         }

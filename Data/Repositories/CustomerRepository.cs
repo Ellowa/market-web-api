@@ -66,7 +66,7 @@ namespace Data.Repositories
 
         public void Update(Customer entity)
         {
-            _tradeMarketDbContext.Entry(entity).State = EntityState.Modified;
+            _customers.Update(entity);
         }
     }
 }

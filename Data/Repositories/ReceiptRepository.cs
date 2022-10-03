@@ -68,7 +68,7 @@ namespace Data.Repositories
 
         public void Update(Receipt entity)
         {
-            _tradeMarketDbContext.Entry(entity).State = EntityState.Modified;
+            _receipts.Update(entity);
         }
     }
 }
