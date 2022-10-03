@@ -6,6 +6,7 @@ using Business.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using WebApi.Filters;
 
 namespace WebApi.Controllers
 {
@@ -47,6 +48,7 @@ namespace WebApi.Controllers
         }
 
         // POST: api/customers
+        [MarketValedationExceptionFilter]
         [HttpPost]
         public async Task<ActionResult> Add([FromBody] CustomerModel value)
         {
@@ -55,6 +57,7 @@ namespace WebApi.Controllers
         }
 
         // PUT: api/customers/1
+        [MarketValedationExceptionFilter]
         [HttpPut("{id}")]
         public async Task<ActionResult> Update(int id, [FromBody] CustomerModel value)
         {
