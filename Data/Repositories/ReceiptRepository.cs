@@ -22,6 +22,9 @@ namespace Data.Repositories
 
         public async Task AddAsync(Receipt entity)
         {
+            // When we use identity PK
+            if (entity.Id != 0)
+                entity.Id = 0;
             await _receipts.AddAsync(entity);
         }
 
