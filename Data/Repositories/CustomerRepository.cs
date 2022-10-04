@@ -38,7 +38,7 @@ namespace Data.Repositories
 
         public async Task<IEnumerable<Customer>> GetAllAsync()
         {
-            return await _customers.ToListAsync();
+            return await _customers.AsNoTracking().ToListAsync();
         }
 
         public async Task<IEnumerable<Customer>> GetAllWithDetailsAsync()
@@ -47,12 +47,13 @@ namespace Data.Repositories
                 .Include(c => c.Person)
                 .Include(c => c.Receipts)
                 .ThenInclude(r => r.ReceiptDetails)
+                .AsNoTracking()
                 .ToListAsync();
         }
 
         public async Task<Customer> GetByIdAsync(int id)
         {
-            return await _customers.FirstOrDefaultAsync(c => c.Id == id);
+            return await _customers.AsNoTracking().FirstOrDefaultAsync(c => c.Id == id);
         }
 
         public async Task<Customer> GetByIdWithDetailsAsync(int id)
@@ -61,12 +62,14 @@ namespace Data.Repositories
                 .Include(c => c.Person)
                 .Include(c => c.Receipts)
                 .ThenInclude(r => r.ReceiptDetails)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
 
         public void Update(Customer entity)
         {
             _customers.Update(entity);
+            //Or context.Attach(entity).State = EntityState.Modified;
         }
     }
 }

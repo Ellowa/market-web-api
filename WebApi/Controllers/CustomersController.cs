@@ -69,10 +69,7 @@ namespace WebApi.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (await _customerService.GetByIdAsync(value.Id) == null)
-                {
-                    return NotFound();
-                }
+                return NotFound();
             }
             return NoContent();
         }

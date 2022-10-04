@@ -38,12 +38,12 @@ namespace Data.Repositories
 
         public async Task<IEnumerable<Person>> GetAllAsync()
         {
-            return await _persons.ToListAsync();
+            return await _persons.AsNoTracking().ToListAsync();
         }
 
         public async Task<Person> GetByIdAsync(int id)
         {
-            return await _persons.FirstOrDefaultAsync(p => p.Id == id);
+            return await _persons.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id);
         }
 
         public void Update(Person entity)

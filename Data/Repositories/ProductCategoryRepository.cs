@@ -38,12 +38,12 @@ namespace Data.Repositories
 
         public async Task<IEnumerable<ProductCategory>> GetAllAsync()
         {
-            return await _productCategories.ToListAsync();
+            return await _productCategories.AsNoTracking().ToListAsync();
         }
 
         public async Task<ProductCategory> GetByIdAsync(int id)
         {
-            return await _productCategories.FirstOrDefaultAsync(pc => pc.Id == id);
+            return await _productCategories.AsNoTracking().FirstOrDefaultAsync(pc => pc.Id == id);
         }
 
         public void Update(ProductCategory entity)

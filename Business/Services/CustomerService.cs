@@ -69,8 +69,18 @@ namespace Business.Services
             var customer = _mapper.Map<Customer>(model);
             var person = _mapper.Map<Person>(model);
             customer.Person = person;
-            _unitOfWork.CustomerRepository.Update(customer);
-            await _unitOfWork.SaveAsync();
+            try
+            {
+                _unitOfWork.CustomerRepository.Update(customer);
+                await _unitOfWork.SaveAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (await GetByIdAsync(model.Id) == null)
+                {
+                    throw;
+                }
+            }
         }
 
         private void CustomerModelVaild(CustomerModel model)
