@@ -23,7 +23,7 @@ namespace Business
                 .ReverseMap();
 
             CreateMap<Customer, CustomerModel>()
-                .ForMember(cm => cm.Id, c => c.MapFrom(x => x.PersonId))
+                .ForMember(cm => cm.Id, c => c.MapFrom(x => x.Id))
                 .ForMember(cm => cm.ReceiptsIds, c => c.MapFrom(x => x.Receipts.Select(r => r.Id)))
                 .ForMember(cm => cm.Name, c => c.MapFrom(x => x.Person.Name))
                 .ForMember(cm => cm.Surname, c => c.MapFrom(x => x.Person.Surname))

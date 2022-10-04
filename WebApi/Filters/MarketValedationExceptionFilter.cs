@@ -33,7 +33,7 @@ namespace WebApi.Filters
                 }
                 context.Result = new ContentResult
                 {
-                    Content = $"Calling {action} failed, because: {exceptionMessage}. Callstack: {callStack}.",
+                    Content = $"Calling {action} failed, because: {exceptionMessage} {context.Exception.InnerException}. Callstack: {callStack}.",
                     StatusCode = 500
                 };
             }
