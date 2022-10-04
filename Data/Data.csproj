@@ -5,11 +5,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20220928160555_InitialCreate.cs" />
+    <Compile Remove="Migrations\20220928160555_InitialCreate.Designer.cs" />
+    <Compile Remove="Migrations\20221004153016_DisableIdentityInAllPK.cs" />
+    <Compile Remove="Migrations\20221004153016_DisableIdentityInAllPK.Designer.cs" />
+    <Compile Remove="Migrations\20221004153212_DisableIdentityInAllPK2.cs" />
+    <Compile Remove="Migrations\20221004153212_DisableIdentityInAllPK2.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
 	  <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.6" />
 	  <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.6" />
 	  <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="3.1.6" />
 	  <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.6" />
 	  <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

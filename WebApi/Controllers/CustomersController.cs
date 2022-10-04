@@ -53,7 +53,7 @@ namespace WebApi.Controllers
         public async Task<ActionResult> Add([FromBody] CustomerModel value)
         {
             await _customerService.AddAsync(value);
-            return Created("/customer/" + value.Id, value);
+            return Created("/customers/" + value.Id, value);
         }
 
         // PUT: api/customers/1

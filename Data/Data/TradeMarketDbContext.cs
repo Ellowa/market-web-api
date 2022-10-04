@@ -19,6 +19,22 @@ namespace Data.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Customer>()
+                .Property(c => c.Id)
+                .ValueGeneratedNever();
+            modelBuilder.Entity<Receipt>()
+                .Property(r => r.Id)
+                .ValueGeneratedNever();
+            modelBuilder.Entity<ReceiptDetail>()
+                .Property(rd => rd.Id)
+                .ValueGeneratedNever();
+            modelBuilder.Entity<Product>()
+                .Property(p => p.Id)
+                .ValueGeneratedNever();
+            modelBuilder.Entity<ProductCategory>()
+                .Property(pc => pc.Id)
+                .ValueGeneratedNever();
+
+            modelBuilder.Entity<Customer>()
                 .HasOne(p => p.Person)
                 .WithOne()
                 .HasForeignKey<Customer>(c => c.PersonId);
@@ -41,6 +57,8 @@ namespace Data.Data
                 .HasOne(p => p.Category)
                 .WithMany(pc => pc.Products)
                 .HasForeignKey(p => p.ProductCategoryId);
+
+            
         }
     }
 }

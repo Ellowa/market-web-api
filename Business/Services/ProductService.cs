@@ -27,7 +27,20 @@ namespace Business.Services
         {
             ProductModelVaild(model);
 
-            await _unitOfWork.ProductRepository.AddAsync(_mapper.Map<Product>(model));
+            var category = await _unitOfWork.ProductCategoryRepository.GetByIdAsync(model.ProductCategoryId);
+            if (category == null)
+            {
+                category = new ProductCategory()
+                {
+                    Id = model.ProductCategoryId,
+                    CategoryName = model.CategoryName
+                };
+                await _unitOfWork.ProductCategoryRepository.AddAsync(category);
+            }
+            var product = _mapper.Map<Product>(model);
+            product.Category = category;
+
+            await _unitOfWork.ProductRepository.AddAsync(product);
             await _unitOfWork.SaveAsync();
         }
 

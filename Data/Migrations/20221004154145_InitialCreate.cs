@@ -26,8 +26,7 @@ namespace Data.Migrations
                 name: "ProductCategories",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<int>(nullable: false),
                     CategoryName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -39,8 +38,7 @@ namespace Data.Migrations
                 name: "Customers",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<int>(nullable: false),
                     PersonId = table.Column<int>(nullable: false),
                     DiscountValue = table.Column<int>(nullable: false)
                 },
@@ -59,8 +57,7 @@ namespace Data.Migrations
                 name: "Products",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<int>(nullable: false),
                     ProductCategoryId = table.Column<int>(nullable: false),
                     ProductName = table.Column<string>(nullable: true),
                     Price = table.Column<decimal>(nullable: false)
@@ -80,8 +77,7 @@ namespace Data.Migrations
                 name: "Receipts",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<int>(nullable: false),
                     CustomerId = table.Column<int>(nullable: false),
                     OperationDate = table.Column<DateTime>(nullable: false),
                     IsCheckedOut = table.Column<bool>(nullable: false)
@@ -101,8 +97,7 @@ namespace Data.Migrations
                 name: "ReceiptsDetails",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<int>(nullable: false),
                     ReceiptId = table.Column<int>(nullable: false),
                     ProductId = table.Column<int>(nullable: false),
                     DiscountUnitPrice = table.Column<decimal>(nullable: false),
