@@ -41,7 +41,7 @@ namespace Data.Repositories
 
         public async Task<IEnumerable<Product>> GetAllAsync()
         {
-            return await _products.ToListAsync();
+            return await _products.AsNoTracking().ToListAsync();
         }
 
         public async Task<IEnumerable<Product>> GetAllWithDetailsAsync()
@@ -49,6 +49,7 @@ namespace Data.Repositories
             return await _products
                 .Include(p => p.Category)
                 .Include(p => p.ReceiptDetails)
+                .AsNoTracking()
                 .ToListAsync();
         }
 
@@ -62,6 +63,7 @@ namespace Data.Repositories
             return await _products
                 .Include(p => p.Category)
                 .Include(p => p.ReceiptDetails)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
 
