@@ -48,7 +48,7 @@ namespace WebApi.Controllers
         }
 
         // POST: api/customers
-        [MarketValedationExceptionFilter]
+        [MarketValedationExceptionFilterAttribute]
         [HttpPost]
         public async Task<ActionResult> Add([FromBody] CustomerModel value)
         {
@@ -57,7 +57,7 @@ namespace WebApi.Controllers
         }
 
         // PUT: api/customers/1
-        [MarketValedationExceptionFilter]
+        [MarketValedationExceptionFilterAttribute]
         [HttpPut("{id}")]
         public async Task<ActionResult> Update(int id, [FromBody] CustomerModel value)
         {

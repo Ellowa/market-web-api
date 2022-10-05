@@ -63,7 +63,7 @@ namespace WebApi.Controllers
         }
 
         // POST: api/receipts
-        [MarketValedationExceptionFilter]
+        [MarketValedationExceptionFilterAttribute]
         [HttpPost]
         public async Task<ActionResult> Add([FromBody] ReceiptModel value)
         {
@@ -72,7 +72,7 @@ namespace WebApi.Controllers
         }
 
         // PUT: api/receipts/1
-        [MarketValedationExceptionFilter]
+        [MarketValedationExceptionFilterAttribute]
         [HttpPut("{id}")]
         public async Task<ActionResult> Update(int id, [FromBody] ReceiptModel value)
         {
@@ -90,7 +90,7 @@ namespace WebApi.Controllers
         }
 
         // PUT: api/receipts/1/products/add/4/2
-        [MarketValedationExceptionFilter]
+        [MarketValedationExceptionFilterAttribute]
         [HttpPut("{id}/products/add/{productId}/{quantity}")]
         public async Task<ActionResult> AddProduct(int id, int productId, int quantity)
         {
@@ -106,7 +106,7 @@ namespace WebApi.Controllers
         }
 
         // PUT: api/receipts/1/products/remove/4/2
-        [MarketValedationExceptionFilter]
+        [MarketValedationExceptionFilterAttribute]
         [HttpPut("{id}/products/remove/{productId}/{quantity}")]
         public async Task<ActionResult> RemoveProduct(int id, int productId, int quantity)
         {
@@ -122,7 +122,7 @@ namespace WebApi.Controllers
         }
 
         // PUT: api/receipts/1/checkout 
-        [MarketValedationExceptionFilter]
+        [MarketValedationExceptionFilterAttribute]
         [HttpPut("{id}/checkout")]
         public async Task<ActionResult> CheckOut(int id)
         {

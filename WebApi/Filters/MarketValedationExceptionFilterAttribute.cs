@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace WebApi.Filters
 {
-    public class MarketValedationExceptionFilter : Attribute, IExceptionFilter
+    public class MarketValedationExceptionFilterAttribute : Attribute, IExceptionFilter
     {
         public void OnException(ExceptionContext context)
         {

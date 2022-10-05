@@ -46,7 +46,7 @@ namespace WebApi.Controllers
         }
 
         // POST: api/products
-        [MarketValedationExceptionFilter]
+        [MarketValedationExceptionFilterAttribute]
         [HttpPost]
         public async Task<ActionResult> Add([FromBody] ProductModel value)
         {
@@ -55,7 +55,7 @@ namespace WebApi.Controllers
         }
 
         // PUT: api/products/1
-        [MarketValedationExceptionFilter]
+        [MarketValedationExceptionFilterAttribute]
         [HttpPut("{id}")]
         public async Task<ActionResult> Update(int id, [FromBody] ProductModel value)
         {
@@ -95,7 +95,7 @@ namespace WebApi.Controllers
         }
 
         // POST: api/products/categories
-        [MarketValedationExceptionFilter]
+        [MarketValedationExceptionFilterAttribute]
         [HttpPost("categories")]
         public async Task<ActionResult> AddCategory([FromBody] ProductCategoryModel value)
         {
@@ -104,7 +104,7 @@ namespace WebApi.Controllers
         }
 
         // PUT: api/products/categories/1
-        [MarketValedationExceptionFilter]
+        [MarketValedationExceptionFilterAttribute]
         [HttpPut("categories/{id}")]
         public async Task<ActionResult> UpdateCategory(int id, [FromBody] ProductCategoryModel value)
         {
