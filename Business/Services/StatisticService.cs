@@ -78,7 +78,7 @@ namespace Business.Services
 
             var receipts = await _unitOfWork.ReceiptRepository.GetAllWithDetailsAsync();
             var topReceiptsCheckedOutInPeriod = receipts
-                .Where(r => r.OperationDate >= startDate && r.OperationDate <= endDate)
+                .Where(r => !r.IsCheckedOut && r.OperationDate >= startDate && r.OperationDate <= endDate)
                 .OrderByDescending(r => r.ReceiptDetails.Sum(rd => rd.DiscountUnitPrice * rd.Quantity))
                 .Take(customerCount);
 
@@ -88,7 +88,7 @@ namespace Business.Services
             {
                 customerActivityModel.ReceiptSum = receipts.Where(r => r.CustomerId == customerActivityModel.CustomerId).SelectMany(r => r.ReceiptDetails).Sum(rd => rd.DiscountUnitPrice * rd.Quantity);
             }
-            return customerActivityModels;
+            return customerActivityModels.OrderByDescending(cam => cam.ReceiptSum);
         }
     }
 }
