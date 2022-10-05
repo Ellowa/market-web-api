@@ -9,6 +9,7 @@ using Data.Interfaces;
 using AutoMapper;
 using Data.Entities;
 using Business.Validation;
+using Microsoft.EntityFrameworkCore;
 
 namespace Business.Services
 {
@@ -69,6 +70,15 @@ namespace Business.Services
         public async Task<IEnumerable<ProductCategoryModel>> GetAllProductCategoriesAsync()
         {
             var productCategories = await _unitOfWork.ProductCategoryRepository.GetAllAsync();
+
+            // Add product (navigation property) to all categories
+            // Сommented due to tests
+            /*var products = await _unitOfWork.ProductRepository.GetAllAsync();
+            foreach (var productCategory in productCategories)
+            {
+                productCategory.Products = products.Where(p => p.ProductCategoryId == productCategory.Id).ToList();
+            }*/
+
             return _mapper.Map<IEnumerable<ProductCategoryModel>>(productCategories);
         }
 
@@ -104,8 +114,19 @@ namespace Business.Services
             ProductModelVaild(model);
 
             var product = _mapper.Map<Product>(model);
-            _unitOfWork.ProductRepository.Update(product);
-            await _unitOfWork.SaveAsync();
+            
+            try
+            {
+                _unitOfWork.ProductRepository.Update(product);
+                await _unitOfWork.SaveAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (await GetByIdAsync(model.Id) == null)
+                {
+                    throw;
+                }
+            }
         }
 
         public async Task UpdateCategoryAsync(ProductCategoryModel categoryModel)

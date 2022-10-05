@@ -9,6 +9,7 @@ using Data.Interfaces;
 using AutoMapper;
 using Data.Entities;
 using Business.Validation;
+using Microsoft.EntityFrameworkCore;
 
 namespace Business.Services
 {
@@ -154,8 +155,19 @@ namespace Business.Services
             ReceiptModelVaild(model);
 
             var receipt = _mapper.Map<Receipt>(model);
-            _unitOfWork.ReceiptRepository.Update(receipt);
-            await _unitOfWork.SaveAsync();
+            
+            try
+            {
+                _unitOfWork.ReceiptRepository.Update(receipt);
+                await _unitOfWork.SaveAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (await GetByIdAsync(model.Id) == null)
+                {
+                    throw;
+                }
+            }
         }
 
         private void ReceiptModelVaild(ReceiptModel model)

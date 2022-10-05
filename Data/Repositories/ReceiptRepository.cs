@@ -56,7 +56,7 @@ namespace Data.Repositories
 
         public async Task<Receipt> GetByIdAsync(int id)
         {
-            return await _receipts.AsNoTracking().FirstOrDefaultAsync(r => r.Id == id);
+            return await _receipts.FirstOrDefaultAsync(r => r.Id == id);
         }
 
         public async Task<Receipt> GetByIdWithDetailsAsync(int id)
@@ -66,7 +66,7 @@ namespace Data.Repositories
                 .Include(r => r.ReceiptDetails)
                 .ThenInclude(rd => rd.Product)
                 .ThenInclude(p => p.Category)
-                .AsNoTracking()
+                
                 .FirstOrDefaultAsync(r => r.Id == id);
         }
 
