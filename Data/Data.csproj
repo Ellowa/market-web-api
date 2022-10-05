@@ -9,6 +9,8 @@
     <Compile Remove="Migrations\20221004153016_DisableIdentityInAllPK.Designer.cs" />
     <Compile Remove="Migrations\20221004153212_DisableIdentityInAllPK2.cs" />
     <Compile Remove="Migrations\20221004153212_DisableIdentityInAllPK2.Designer.cs" />
+    <Compile Remove="Migrations\20221005082456_addCompositePKToReceiptDetailTable.cs" />
+    <Compile Remove="Migrations\20221005082456_addCompositePKToReceiptDetailTable.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

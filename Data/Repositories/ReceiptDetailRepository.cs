@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Data.Data;
@@ -35,7 +36,7 @@ namespace Data.Repositories
 
         public async Task DeleteByIdAsync(int id)
         {
-            var entity = await _receiptDetails.FindAsync(id);
+            var entity = await _receiptDetails.FirstOrDefaultAsync(rd => rd.Id == id);
             _tradeMarketDbContext.Entry(entity).State = EntityState.Deleted;
         }
 

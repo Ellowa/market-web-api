@@ -29,6 +29,11 @@ namespace Data.Data
                 .HasForeignKey(r => r.CustomerId);
 
             modelBuilder.Entity<ReceiptDetail>()
+                .HasKey(rd => new { rd.ReceiptId, rd.ProductId });
+            modelBuilder.Entity<ReceiptDetail>()
+                .Property(rd => rd.Id)
+                .ValueGeneratedOnAdd();
+            modelBuilder.Entity<ReceiptDetail>()
                 .HasOne(rd => rd.Receipt)
                 .WithMany(r => r.ReceiptDetails)
                 .HasForeignKey(rd => rd.ReceiptId);
