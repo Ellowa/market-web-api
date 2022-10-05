@@ -118,7 +118,7 @@ namespace Business.Services
             if (endDate < startDate) throw new MarketException();
 
             var receipts = await _unitOfWork.ReceiptRepository.GetAllWithDetailsAsync();
-            return _mapper.Map<IEnumerable<ReceiptModel>>(receipts.Where(r => r.OperationDate > startDate && r.OperationDate < endDate));
+            return _mapper.Map<IEnumerable<ReceiptModel>>(receipts.Where(r => r.OperationDate >= startDate && r.OperationDate <= endDate));
         }
 
         public async Task RemoveProductAsync(int productId, int receiptId, int quantity)

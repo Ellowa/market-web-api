@@ -45,7 +45,7 @@ namespace Business.Services
 
             var receipts = await _unitOfWork.ReceiptRepository.GetAllWithDetailsAsync();
             var incomeOfCategoryInPeriod = receipts
-                .Where(r => r.OperationDate > startDate && r.OperationDate < endDate)
+                .Where(r => r.OperationDate >= startDate && r.OperationDate <= endDate)
                 .SelectMany(r => r.ReceiptDetails)
                 .Where(rd => rd.Product.ProductCategoryId == categoryId)
                 .Sum(rd => rd.DiscountUnitPrice * rd.Quantity);
@@ -57,10 +57,16 @@ namespace Business.Services
             if (productCount < 0) throw new MarketException("productCount must be greater than 0");
 
             var receiptdetails = await _unitOfWork.ReceiptDetailRepository.GetAllWithDetailsAsync();
+
             var mostPopularProducts = receiptdetails
                 .GroupBy(rd => rd.ProductId)
                 .OrderByDescending(rd => rd.Sum(x => x.Quantity))
-                .Take(productCount).Select(x => x.Select(t => t.Product).FirstOrDefault());
+                .Take(productCount).Select(x => x.Select(t => t.Product).FirstOrDefault()).ToList();
+
+            foreach(var mostPopularProduct in mostPopularProducts)
+            {
+                mostPopularProduct.ReceiptDetails = receiptdetails.Where(rd => rd.ProductId == mostPopularProduct.Id).ToList();
+            }
 
             return _mapper.Map<IEnumerable<ProductModel>>(mostPopularProducts);
         }
@@ -72,7 +78,7 @@ namespace Business.Services
 
             var receipts = await _unitOfWork.ReceiptRepository.GetAllWithDetailsAsync();
             var topReceiptsCheckedOutInPeriod = receipts
-                .Where(r => !r.IsCheckedOut && r.OperationDate > startDate && r.OperationDate < endDate)
+                .Where(r => !r.IsCheckedOut && r.OperationDate >= startDate && r.OperationDate <= endDate)
                 .OrderByDescending(r => r.ReceiptDetails.Sum(rd => rd.DiscountUnitPrice * rd.Quantity))
                 .Take(customerCount);
 
