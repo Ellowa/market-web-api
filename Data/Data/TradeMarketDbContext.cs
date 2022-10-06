@@ -1,5 +1,6 @@
 ﻿using Data.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Data.Data
 {
@@ -32,7 +33,8 @@ namespace Data.Data
                 .HasKey(rd => new { rd.ReceiptId, rd.ProductId });
             modelBuilder.Entity<ReceiptDetail>()
                 .Property(rd => rd.Id)
-                .ValueGeneratedOnAdd();
+                .ValueGeneratedOnAdd()
+                .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
             modelBuilder.Entity<ReceiptDetail>()
                 .HasOne(rd => rd.Receipt)
                 .WithMany(r => r.ReceiptDetails)

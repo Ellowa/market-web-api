@@ -77,18 +77,18 @@ namespace Business.Services
             if (endDate < startDate) throw new MarketException();
 
             var receipts = await _unitOfWork.ReceiptRepository.GetAllWithDetailsAsync();
-            var topReceiptsCheckedOutInPeriod = receipts
+            var topCustomerActivityModels = receipts
                 .Where(r => !r.IsCheckedOut && r.OperationDate >= startDate && r.OperationDate <= endDate)
-                .OrderByDescending(r => r.ReceiptDetails.Sum(rd => rd.DiscountUnitPrice * rd.Quantity))
+                .GroupBy(r => r.CustomerId, (key, x) =>
+                    new CustomerActivityModel
+                    {
+                        CustomerId = key,
+                        CustomerName = x.Select(t => t.Customer.Person.Name + " " + t.Customer.Person.Surname).FirstOrDefault(),
+                        ReceiptSum = x.SelectMany(t => t.ReceiptDetails).Sum(rd => rd.DiscountUnitPrice * rd.Quantity)
+                    })
+                .OrderByDescending(cam => cam.ReceiptSum)
                 .Take(customerCount);
-
-            var customersModels = _mapper.Map<IEnumerable<CustomerModel>>(topReceiptsCheckedOutInPeriod.Select(r => r.Customer));
-            var customerActivityModels = _mapper.Map<IEnumerable<CustomerActivityModel>>(customersModels);
-            foreach (var customerActivityModel in customerActivityModels)
-            {
-                customerActivityModel.ReceiptSum = receipts.Where(r => r.CustomerId == customerActivityModel.CustomerId).SelectMany(r => r.ReceiptDetails).Sum(rd => rd.DiscountUnitPrice * rd.Quantity);
-            }
-            return customerActivityModels.OrderByDescending(cam => cam.ReceiptSum);
+            return topCustomerActivityModels;
         }
     }
 }
