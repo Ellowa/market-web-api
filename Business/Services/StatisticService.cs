@@ -78,7 +78,7 @@ namespace Business.Services
 
             var receipts = await _unitOfWork.ReceiptRepository.GetAllWithDetailsAsync();
             var topCustomerActivityModels = receipts
-                .Where(r => !r.IsCheckedOut && r.OperationDate >= startDate && r.OperationDate <= endDate)
+
                 .GroupBy(r => r.CustomerId, (key, x) =>
                     new CustomerActivityModel
                     {
