@@ -70,15 +70,6 @@ namespace Business.Services
         public async Task<IEnumerable<ProductCategoryModel>> GetAllProductCategoriesAsync()
         {
             var productCategories = await _unitOfWork.ProductCategoryRepository.GetAllAsync();
-
-            // Add product (navigation property) to all categories
-            // Сommented due to tests
-            /*var products = await _unitOfWork.ProductRepository.GetAllAsync();
-            foreach (var productCategory in productCategories)
-            {
-                productCategory.Products = products.Where(p => p.ProductCategoryId == productCategory.Id).ToList();
-            }*/
-
             return _mapper.Map<IEnumerable<ProductCategoryModel>>(productCategories);
         }
 

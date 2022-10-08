@@ -41,7 +41,7 @@ namespace Data.Repositories
 
         public async Task<IEnumerable<ProductCategory>> GetAllAsync()
         {
-            return await _productCategories.AsNoTracking().ToListAsync();
+            return await _productCategories.Include(pc => pc.Products).AsNoTracking().ToListAsync();
         }
 
         public async Task<ProductCategory> GetByIdAsync(int id)
