@@ -1,5 +1,6 @@
 ﻿using Business.Interfaces;
 using Business.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -24,6 +25,7 @@ namespace WebApi.Controllers
         // GET: api/products
         // GET: api/products?categoryId=1&minPrice=20&maxPrice=50
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<ProductModel>>> Get([FromQuery]FilterSearchModel filter)
         {
             if (filter != null)
@@ -35,6 +37,8 @@ namespace WebApi.Controllers
 
         //GET: api/products/1
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ProductModel>> GetById(int id)
         {
             var product = await _productService.GetByIdAsync(id);
@@ -48,6 +52,8 @@ namespace WebApi.Controllers
         // POST: api/products
         [MarketValedationExceptionFilterAttribute]
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> Add([FromBody] ProductModel value)
         {
             await _productService.AddAsync(value);
@@ -57,6 +63,8 @@ namespace WebApi.Controllers
         // PUT: api/products/1
         [MarketValedationExceptionFilterAttribute]
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> Update(int id, [FromBody] ProductModel value)
         {
             if (id != value.Id) return BadRequest();
@@ -74,6 +82,8 @@ namespace WebApi.Controllers
 
         // DELETE: api/products/1
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> Delete(int id)
         {
             var product = await _productService.GetByIdAsync(id);
@@ -89,6 +99,7 @@ namespace WebApi.Controllers
 
         // GET: api/products/categories
         [HttpGet("categories")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<ProductCategoryModel>>> GetCategories()
         {
             return Ok(await _productService.GetAllProductCategoriesAsync());
